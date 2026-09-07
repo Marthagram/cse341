@@ -1,24 +1,22 @@
-import { MongoClient } from "mongodb";
+// - Connect to MongoDB once
 
+import mongoose from 'mongoose';
+const connectDB = async () => {
+  try {
+    const uri = process.env.MONGODB_URI
+    if (!uri) throw new Error("MONGODB_URI is missing in .env")
+    
+  await mongoose.connect(uri, {
+    dbName: "cse341"
+  });
 
-const uri = process.env.MONGODB_URI;
-
-const client = new MongoClient(uri);
-let db;
-
- export async function connectToDatabase() {
-    try {
-        await client.connect();
-      
-    db = client.db("cse341");
-        console.log("Connected to MongoDB!");
-        return client;
-    } catch (error) {
-        console.error("MongoDB connection failed:", error);
-    }
+    console.log('MongoDB Connected ✅')
+    console.log('Database:', mongoose.connection.name)
+  } catch (err) {
+    console.error("DB Connection Error:", err)
+    process.exit(1)
+  }
 }
 
 
-export function getDB() {
-    return db;
-}
+export default connectDB

@@ -1,13 +1,16 @@
 {
   "dependencies": {
     "express": "^5.2.1",
-    "mongodb": "^7.6.0"
+    "mongodb": "^7.6.0",
+    "mongoose": "^9.9.5"
   },
   "name": "cse341",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.10.0",
     "nodemon": "^3.1.14"
   },
   "scripts": {

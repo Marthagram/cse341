@@ -4,8 +4,8 @@ import express from 'express';
 
 
 // importing individual pages' controller logic
-import { getUsers } from './controller/users.js';
-import { getUser } from './controller/users.js';
+import { getUsers } from './controllers/users.js';
+import { getUser } from './controllers/users.js';
 
 
 

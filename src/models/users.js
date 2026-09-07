@@ -1,24 +1,17 @@
-import { getDB } from "./connect.js";
-import { ObjectId } from 'mongodb';
- 
+// models/users.js
+import mongoose from 'mongoose'
+const { Schema, model } = mongoose;
 
-
-export async function getAllUsers() {
-    
-    const db = getDB();
-
-    const contacts = await db
-        .collection("contacts")
-        .find({})
-        .toArray();
-
-    return contacts;
-}
-
-export async function getUserById(id) {
+const contactSchema = new Schema({
   
-    const db = getDB();
-    const user = await db.collection("contacts").findOne({ _id: new ObjectId (id) });
-    return user;
-}
-    
+firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  favoriteColor: { type: String, required: true },
+  birthday: { type: Date, required: true },
+}, 
+{ timestamps: true }) // adds createdAt, updatedAt automatically
+
+const Contact = model('Contact', contactSchema, 'contacts') // third argument specifies the collection name
+
+export default Contact
