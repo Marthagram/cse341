@@ -23,22 +23,36 @@ export async function getUser(req, res) {
 // CREATE
 export async function createUser(req, res) {
   try {
-    const createContact = await Contact.create({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      favoriteColor: req.body.favoriteColor,
-      birthday: req.body.birthday
-    });
-    const userId = createContact._id; // Get the ID of the newly created contact
+    const { firstName, lastName, email, favoriteColor, birthday } = req.body;
 
-    console.log(createContact, userId); // Log the created contact and its ID
-    res.status(201).json(userId); // <- only send once
+    // 1. CHECK FIRST
+    const existingEmail = await Contact.findOne({ email });
+    if (existingEmail) {
+      return res.status(409).json({ message: 'Email already exists' }); // 409 = Conflict
+    }
+
+    // 2. THEN CREATE
+    const createContact = await Contact.create({
+      firstName,
+      lastName,
+      email,
+      favoriteColor,
+      birthday
+    });
+
+    console.log(createContact);
+    res.status(201).json(createContact);
   } catch (err) {
+    // 3. Backup: catch mongo duplicate error just in case of race condition
+    if (err.code === 11000) {
+      return res.status(409).json({ message: 'Email already exists' });
+    }
+    if (err.name === 'ValidationError') {
+      return res.status(400).json({ message: err.message });
+    }
     res.status(500).json({ message: err.message });
   }
 }
-
 export async function updateUser(req, res) {
   try {
     const updatedContact = await Contact.findByIdAndUpdate(
