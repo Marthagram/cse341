@@ -3,20 +3,19 @@
 import mongoose from 'mongoose';
 const connectDB = async () => {
   try {
-    const uri = process.env.MONGODB_URI
-    if (!uri) throw new Error("MONGODB_URI is missing in .env")
-    
-  await mongoose.connect(uri, {
-    dbName: "cse341"
-  });
+    const uri = process.env.MONGODB_URI;
+    if (!uri) throw new Error('MONGODB_URI is missing in .env');
 
-    console.log('MongoDB Connected ✅')
-    console.log('Database:', mongoose.connection.name)
+    await mongoose.connect(uri, {
+      dbName: 'cse341'
+    });
+
+    console.log('MongoDB Connected ✅');
+    console.log('Database:', mongoose.connection.name);
   } catch (err) {
-    console.error("DB Connection Error:", err)
-    process.exit(1)
+    console.error('DB Connection Error:', err);
+    process.exit(1);
   }
-}
+};
 
-
-export default connectDB
+export default connectDB;
