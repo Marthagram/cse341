@@ -8,7 +8,7 @@
   "host": "product1-tk36.onrender.com",
   "basePath": "/",
   "schemes": [
-  
+    "http",
     "https"
   ],
   "paths": {
